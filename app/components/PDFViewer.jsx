@@ -41,20 +41,9 @@ export default function PDFAnalyzer() {
         <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
             <Script src="https://acrobatservices.adobe.com/view-sdk/viewer.js" strategy="beforeInteractive" />
 
-            {/* LEFT COLUMN */}
+            {/* LEFT COLUMN - PDF Titles */}
             <div style={{ flex: "0 0 20%", borderRight: "1px solid #ddd", padding: "1rem" }}>
                 <h2 style={{ marginBottom: "1rem" }}>PDF's</h2>
-                <input
-                    type="text"
-                    placeholder="Search"
-                    style={{
-                        width: "100%",
-                        padding: "0.5rem",
-                        marginBottom: "1rem",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px"
-                    }}
-                />
                 {pdfFiles.map((pdf, idx) => (
                     <div
                         key={idx}
@@ -73,13 +62,54 @@ export default function PDFAnalyzer() {
                 ))}
             </div>
 
-            {/* CENTER COLUMN */}
-            <div style={{ flex: 1, padding: "1rem" }}>
-                <h3 style={{ marginBottom: "1rem" }}>PDF Preview</h3>
+            {/* CENTER COLUMN - Search, Upload, Thumbnails, PDF Viewer */}
+            <div style={{ flex: 1, padding: "1rem", display: "flex", flexDirection: "column" }}>
+                {/* Search + Upload Bar */}
+                <div style={{ display: "flex", marginBottom: "1rem", gap: "0.5rem" }}>
+                    <input
+                        type="text"
+                        placeholder="Search PDFs"
+                        style={{
+                            flex: 1,
+                            padding: "0.5rem",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            background: "#ffecec"
+                        }}
+                    />
+                    
+                </div>
+
+                {/* Thumbnails */}
+                <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+                    {pdfFiles.map((pdf, idx) => (
+                        <div
+                            key={idx}
+                            onClick={() => setSelectedPDF(pdf)}
+                            style={{
+                                width: "80px",
+                                height: "100px",
+                                background: "#f5f5f5",
+                                borderRadius: "6px",
+                                border: selectedPDF.name === pdf.name ? "2px solid red" : "1px solid #ccc",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                                fontSize: "0.8rem",
+                                textAlign: "center"
+                            }}
+                        >
+                            📄
+                        </div>
+                    ))}
+                </div>
+
+                {/* PDF Preview */}
                 <div
                     id="pdf-preview"
                     style={{
-                        height: "80vh",
+                        flex: 1,
                         border: "1px solid #ccc",
                         borderRadius: "6px",
                         overflow: "hidden"
@@ -87,7 +117,7 @@ export default function PDFAnalyzer() {
                 />
             </div>
 
-            {/* RIGHT COLUMN */}
+            {/* RIGHT COLUMN - AI Insights */}
             <div style={{
                 flex: "0 0 25%",
                 borderLeft: "1px solid #ddd",
@@ -95,10 +125,26 @@ export default function PDFAnalyzer() {
                 display: "flex",
                 flexDirection: "column"
             }}>
+                <button
+                style={{
+                    background: "red",
+                    // alignItems: "center",
+                    marginLeft:350,
+                    width: 70,
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer"
+                }}
+            >
+                        Upload
+                    </button>
                 <h3 style={{ marginBottom: "0.5rem" }}>AI Insights</h3>
                 <p style={{ fontSize: "0.9rem", marginBottom: "1rem" }}>
                     AI-generated insights based on selected text
                 </p>
+                
                 <div style={{
                     display: "flex",
                     alignItems: "center",
