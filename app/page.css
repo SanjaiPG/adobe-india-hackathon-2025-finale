@@ -11,10 +11,9 @@ html {
     display: flex;
     height: 100vh;
     gap: 10px;
-    background-color: #e0e0e0;
     padding: 10px;
     box-sizing: border-box;
-    background-color: rgb(246, 0, 0);
+    background-color: #d3d3d37c;
 }
 
 .left-panel {

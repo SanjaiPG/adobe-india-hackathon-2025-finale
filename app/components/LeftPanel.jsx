@@ -5,13 +5,23 @@ const LeftPanel = () => {
     return (
         <div className="left-panel">
             <h3 className="left-title">PDF's</h3>
-            <button className="top-button">Button</button>
 
-            <div className="pdf-list">
-                {/* Placeholder for PDF items */}
+            {/* To make this button center */}
+            <div class="top-button-container">
+                <button class="top-button">Upload PDF</button>
             </div>
 
-            <button className="bottom-button">Upload PDF</button>
+            {/* If not center use this alone*/}
+            {/* <button class="top-button">Upload PDF</button> */}
+
+            <div className="pdf-list">
+            </div>
+
+            <input
+                type="text"
+                className="search-bar"
+                placeholder="Search PDFs..."
+            />
         </div>
     );
 };
