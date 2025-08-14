@@ -77,18 +77,7 @@ export default function PDFAnalyzer() {
                             background: "#ffecec"
                         }}
                     />
-                    <button
-                        style={{
-                            background: "red",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "4px",
-                            padding: "0.5rem 1rem",
-                            cursor: "pointer"
-                        }}
-                    >
-                        Upload
-                    </button>
+                    
                 </div>
 
                 {/* Thumbnails */}
@@ -136,10 +125,26 @@ export default function PDFAnalyzer() {
                 display: "flex",
                 flexDirection: "column"
             }}>
+                <button
+                style={{
+                    background: "red",
+                    // alignItems: "center",
+                    marginLeft:350,
+                    width: 70,
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer"
+                }}
+            >
+                        Upload
+                    </button>
                 <h3 style={{ marginBottom: "0.5rem" }}>AI Insights</h3>
                 <p style={{ fontSize: "0.9rem", marginBottom: "1rem" }}>
                     AI-generated insights based on selected text
                 </p>
+                
                 <div style={{
                     display: "flex",
                     alignItems: "center",
