@@ -15,30 +15,67 @@
     font-weight: bold;
 }
 
+.top-button-container {
+    display: flex;
+    justify-content: center;
+}
+
 .top-button {
-    background-color: #888;
+    background-color: #ff0000d5;
     color: white;
     border: none;
+    width: 150px;
     border-radius: 20px;
-    padding: 10px;
-    margin: 0 10px 20px 10px;
+    padding: 12px 16px;
+    margin: 0px 10px 20px 0px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
 }
 
-.pdf-list {
+.top-button:hover {
+    background-color: #ff4848;
+}
+
+/* .pdf-list {
     flex-grow: 1;
-    background-color: #ddd;
+    background-color: #ddddddd4;
     border-radius: 10px;
     margin: 0 10px;
     overflow-y: auto;
+} */
+
+.pdf-list {
+    flex-grow: 1;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
 }
 
-.bottom-button {
-    background-color: #888;
-    color: white;
-    border: none;
-    border-radius: 10px;
+.pdf-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.pdf-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.search-bar {
     padding: 10px;
-    margin: 20px 10px 0 10px;
-    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.search-bar:focus {
+    border-color: #888;
 }
