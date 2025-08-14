@@ -7,8 +7,8 @@ const LeftPanel = () => {
             <h3 className="left-title">PDF's</h3>
 
             {/* To make this button center */}
-            <div class="top-button-container">
-                <button class="top-button">Upload PDF</button>
+            <div className="top-button-container">
+                <button className="top-button">Upload PDF</button>
             </div>
 
             {/* If not center use this alone*/}
