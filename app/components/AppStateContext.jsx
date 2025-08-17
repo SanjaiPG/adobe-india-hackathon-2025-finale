@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
@@ -144,7 +143,6 @@ const saveFilesToStorage = (filesMap) => {
         const filesToSave = Array.from(filesMap.values()).map(fileData => ({
             id: fileData.id,
             name: fileData.name,
-            url: fileData.url,
             // Don't save File objects, only URLs
             ...(fileData.url && !fileData.url.startsWith('blob:') && { url: fileData.url })
         }));
@@ -160,19 +158,12 @@ const saveFilesToStorage = (filesMap) => {
 export const AppStateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(appStateReducer, initialState);
 
-    // Load data from localStorage on mount
+    // Removed loading from localStorage to clear PDFs on refresh
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const savedFiles = loadFilesFromStorage();
-            const savedCurrentPdfId = localStorage.getItem('pdf-app-current');
-
-            if (savedFiles.length > 0) {
-                dispatch({ type: ActionTypes.SET_FILES, payload: savedFiles });
-            }
-
-            if (savedCurrentPdfId && savedFiles.some(f => f.id === savedCurrentPdfId)) {
-                dispatch({ type: ActionTypes.SET_CURRENT_PDF, payload: savedCurrentPdfId });
-            }
+            // Clear localStorage to ensure no files are loaded
+            localStorage.removeItem('pdf-app-files');
+            localStorage.removeItem('pdf-app-current');
         }
     }, []);
 

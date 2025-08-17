@@ -98,10 +98,13 @@ const LeftPanel = () => {
             Array.from(files.keys()).forEach(fileId => {
                 removeFile(fileId);
             });
+            // Explicitly clear currentPdfId after removing all files
+            setCurrentPdf(null);
         }
     };
 
-    const filesArray = Array.from(files.values());
+    // Filter files to only show those with valid File objects
+    const filesArray = Array.from(files.values()).filter(fileData => fileData.file);
 
     return (
         <div className="left-panel">
@@ -109,7 +112,7 @@ const LeftPanel = () => {
             <div className="header">
                 <div className="header-content">
                     <h2 className="header-title">Document Library</h2>
-                    <span className="file-count">{files.size}</span>
+                    <span className="file-count">{filesArray.length}</span>
                 </div>
             </div>
 
@@ -161,7 +164,7 @@ const LeftPanel = () => {
                 )}
 
                 {/* Bulk actions */}
-                {files.size > 0 && (
+                {filesArray.length > 0 && (
                     <div className="bulk-actions">
                         <button
                             onClick={() => fileInputRef.current?.click()}
@@ -183,7 +186,7 @@ const LeftPanel = () => {
 
             {/* File List */}
             <div className="file-list">
-                {files.size === 0 ? (
+                {filesArray.length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-icon">
                             <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -245,7 +248,7 @@ const LeftPanel = () => {
             </div>
 
             {/* Footer */}
-            {files.size > 0 && (
+            {filesArray.length > 0 && (
                 <div className="footer">
                     <p className="footer-text">
                         Click a document to view • Drag files to upload
