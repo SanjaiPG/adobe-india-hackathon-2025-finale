@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { useAppState } from './AppStateContext';
+import { useAppState, useAppActions } from './AppStateContext';
 import './CenterPanel.css';
 
 const CenterPanel = () => {
     const { files, currentPdfId } = useAppState();
+    const { setSnippets } = useAppActions();
     const viewerRef = useRef(null);
     const adobeDCViewRef = useRef(null);
 
@@ -59,7 +60,7 @@ const CenterPanel = () => {
                 });
 
                 // Preview the file
-                adobeDCViewRef.current.previewFile({
+                const previewFilePromise = adobeDCViewRef.current.previewFile({
                     content: { location: { url: fileUrl } },
                     metaData: { fileName: currentFile.name }
                 }, {
@@ -69,6 +70,26 @@ const CenterPanel = () => {
                     showLeftHandPanel: true,
                     showAnnotationTools: false
                 });
+
+                // Register callback for text selection
+                adobeDCViewRef.current.registerCallback(
+                    window.AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
+                    function(event) {
+                        if (event.type === "PREVIEW_SELECTION_END") {
+                            previewFilePromise.then(adobeViewer => {
+                                adobeViewer.getAPIs().then(apis => {
+                                    apis.getSelectedContent()
+                                        .then(result => {
+                                            if (result.type === 'text' && result.data) {
+                                                setSnippets([result.data]); // Set the selected text as snippet
+                                            }
+                                        })
+                                        .catch(error => console.error('Error getting selected content:', error));
+                                });
+                            });
+                        }
+                    }, { enableFilePreviewEvents: true }
+                );
 
             } catch (error) {
                 console.error('Error displaying PDF:', error);
@@ -84,7 +105,7 @@ const CenterPanel = () => {
                 adobeDCViewRef.current = null;
             }
         };
-    }, [currentFile, currentPdfId]);
+    }, [currentFile, currentPdfId, setSnippets]);
 
     return (
         <div className="center-panel">
