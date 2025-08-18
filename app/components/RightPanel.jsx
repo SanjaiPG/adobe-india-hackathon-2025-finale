@@ -86,6 +86,68 @@ const RightPanel = () => {
 
     return (
         <div className="right-panel">
+            {/* Selected Text Section */}
+            <div className="section">
+                <h3>Selected Text</h3>
+                {snippets.length > 0 ? (
+                    <div className="selected-text">
+                        {snippets.map((snippet, index) => (
+                            <div key={index} className="snippet">
+                                <div className="snippet-text">{snippet}</div>
+                                <div className="snippet-actions">
+                                    <button
+                                        onClick={() => navigator.clipboard.writeText(snippet)}
+                                        className="snippet-action-button"
+                                        title="Copy to clipboard"
+                                    >
+                                        📋
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="empty-state">
+                        <div className="empty-state-icon">✏️</div>
+                        <div className="empty-state-text">Select text in the PDF viewer</div>
+                    </div>
+                )}
+            </div>
+
+            {/* Relevant Sections */}
+            <div className="section">
+                <h3>Relevant Sections</h3>
+                {loading.sections ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <p className="spinner-text">Finding relevant sections...</p>
+                    </div>
+                ) : errors.sections ? (
+                    <p className="error">{errors.sections}</p>
+                ) : relevantSections.length > 0 ? (
+                    <ul className="relevant-sections">
+                        {relevantSections.map((section, index) => (
+                            <li
+                                key={index}
+                                onClick={() => handleSectionClick(section)}
+                                className="section-item"
+                            >
+                                <div className="section-content">
+                                    <div className="section-title">{section.title}</div>
+                                    <div className="section-page">Page {section.page}</div>
+                                </div>
+                                <div className="section-arrow">→</div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="empty-state">
+                        <div className="empty-state-icon">🔍</div>
+                        <div className="empty-state-text">Select text to find relevant sections</div>
+                    </div>
+                )}
+            </div>
+
             {/* Smart Headings Section - Shows AI-detected with fallback */}
             <div className="headings-section">
                 <div className="section-header">
@@ -177,67 +239,6 @@ const RightPanel = () => {
                 )}
             </div>
 
-            {/* Selected Text Section */}
-            <div className="section">
-                <h3>Selected Text</h3>
-                {snippets.length > 0 ? (
-                    <div className="selected-text">
-                        {snippets.map((snippet, index) => (
-                            <div key={index} className="snippet">
-                                <div className="snippet-text">{snippet}</div>
-                                <div className="snippet-actions">
-                                    <button
-                                        onClick={() => navigator.clipboard.writeText(snippet)}
-                                        className="snippet-action-button"
-                                        title="Copy to clipboard"
-                                    >
-                                        📋
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="empty-state">
-                        <div className="empty-state-icon">✏️</div>
-                        <div className="empty-state-text">Select text in the PDF viewer</div>
-                    </div>
-                )}
-            </div>
-
-            {/* Relevant Sections */}
-            <div className="section">
-                <h3>Relevant Sections</h3>
-                {loading.sections ? (
-                    <div className="spinner-container">
-                        <div className="spinner"></div>
-                        <p className="spinner-text">Finding relevant sections...</p>
-                    </div>
-                ) : errors.sections ? (
-                    <p className="error">{errors.sections}</p>
-                ) : relevantSections.length > 0 ? (
-                    <ul className="relevant-sections">
-                        {relevantSections.map((section, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handleSectionClick(section)}
-                                className="section-item"
-                            >
-                                <div className="section-content">
-                                    <div className="section-title">{section.title}</div>
-                                    <div className="section-page">Page {section.page}</div>
-                                </div>
-                                <div className="section-arrow">→</div>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <div className="empty-state">
-                        <div className="empty-state-icon">🔍</div>
-                        <div className="empty-state-text">Select text to find relevant sections</div>
-                    </div>
-                )}
-            </div>
 
             {/* Action Buttons */}
             <div className="action-buttons">
