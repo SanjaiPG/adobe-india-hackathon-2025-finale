@@ -129,7 +129,7 @@ const RightPanel = () => {
                         {relevantSections.map((section, index) => (
                             <li
                                 key={index}
-                                // onClick={() => handleSectionClick(section)}
+                                onClick={() => handleSectionClick(section)}
                                 className="section-item"
                             >
                                 <div className="section-content">

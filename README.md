@@ -20,3 +20,7 @@ npm install
    ```bash
    npm install pdfjs-dist
    ```
+
+   ```bash
+   npm install cross-env --save-dev
+```
