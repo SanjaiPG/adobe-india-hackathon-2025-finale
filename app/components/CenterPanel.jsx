@@ -56,7 +56,7 @@ const CenterPanel = () => {
 
                 // Initialize Adobe DC View
                 adobeDCViewRef.current = new window.AdobeDC.View({
-                    clientId: process.env.NEXT_PUBLIC_PDF_EMBED_API_KEY, // Replace with your actual client ID
+                    clientId: fb582e05a1a14a678e61cac8e9c0701f, // Replace with your actual client ID
                     divId: viewerDiv.id
                 });
 
