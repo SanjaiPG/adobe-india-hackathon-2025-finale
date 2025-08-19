@@ -56,6 +56,11 @@ const CenterPanel = () => {
 
                 // Initialize Adobe DC View
                 const clientId = 'fb582e05a1a14a678e61cac8e9c0701f';
+                if (!clientId) {
+                    console.error("Adobe Embed API Key is missing!");
+                    return;
+                }
+
                 adobeDCViewRef.current = new window.AdobeDC.View({
                     clientId: clientId, // Replace with your actual client ID
                     divId: viewerDiv.id
