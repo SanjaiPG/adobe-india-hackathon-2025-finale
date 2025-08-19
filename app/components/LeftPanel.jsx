@@ -132,9 +132,9 @@ const LeftPanel = () => {
 
                     <div className="upload-content">
                         {loading.files ? (
-                            <div className="spinner">
-                                <div className="spinner-circle"></div>
-                                <p className="spinner-text">Processing files...</p>
+                            <div className="">
+                                <div className=""></div>
+                                <p className="">Processing files...</p>
                             </div>
                         ) : (
                             <>
