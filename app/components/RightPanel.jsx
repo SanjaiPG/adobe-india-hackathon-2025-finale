@@ -166,7 +166,7 @@ const RightPanel = () => {
                 {loading.headings ? (
                     <div className="spinner-container">
                         <div className="spinner"></div>
-                        <p className="spinner-text">Analyzing PDFs with Gemini 2.5 Flash...</p>
+                        <p className="spinner-text">Analyzing PDFs</p>
                     </div>
                 ) : errors.headings ? (
                     <div className="error-container">
