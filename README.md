@@ -46,6 +46,40 @@ npm install cross-env --save-dev
 There are two ways to run this application: using Docker or with npm.
 
 ### 1. Running with Docker
+#### Build Docker
+```bash
+docker build -t adobe-hackathon-app .
+```
+#### To Run in linux distro
+```bash
+docker run \
+  -e GOOGLE_API_KEY=<your-google-api-key-here> \
+  -e AZURE_TTS_KEY=<your-azure-tts-key-here> \
+  -e AZURE_TTS_ENDPOINT=https://eastus.api.cognitive.microsoft.com/ \
+  -e ADOBE_EMBED_API_KEY=<your-adobe-embed-api-key-here> \
+  -e NEXT_PUBLIC_GEMINI_API_KEY=<your-gemini-api-key-here> \
+  -e LLM_PROVIDER=gemini \
+  -e TTS_PROVIDER=azure \
+  -e GEMINI_MODEL=gemini-2.5-flash \
+  -e AZURE_TTS_DEPLOYMENT=tts \
+  -p 8080:8080 \
+  adobe-hackathon-finale
+```
+
+#### To Run in windows
+```bash
+docker run \
+   -e GOOGLE_API_KEY=<your-google-api-key-here> ^
+   -e AZURE_TTS_KEY=<your-azure-tts-key-here> ^
+   -e AZURE_TTS_ENDPOINT=https://eastus.api.cognitive.microsoft.com/ ^
+   -e ADOBE_EMBED_API_KEY=<your-adobe-embed-api-key-here> ^
+   -e NEXT_PUBLIC_GEMINI_API_KEY=<your-gemini-api-key-here> ^
+   -e LLM_PROVIDER=gemini ^
+   -e TTS_PROVIDER=azure ^
+   -e GEMINI_MODEL=gemini-2.5-flash ^
+   -e AZURE_TTS_DEPLOYMENT=tts ^
+   -p 8080:8080 adobe-hackathon-finale
+```
 
 ### 2. Running with npm (npm run dev)
 
