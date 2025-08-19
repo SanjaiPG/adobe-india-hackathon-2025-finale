@@ -483,8 +483,7 @@
     box-shadow: 0 4px 6px rgba(5, 150, 105, 0.3);
 }
 
-.insights-content,
-.podcast-container {
+.insights-content {
     background-color: white;
     border: 1px solid #e1e1e1;
     border-radius: 0.75rem;

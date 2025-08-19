@@ -293,13 +293,13 @@ const RightPanel = () => {
                 ) : insights ? (
                     <div className="insights-content">
                         <div className="insights-text">{insights}</div>
-                        <button
+                        {/* <button
                             onClick={() => navigator.clipboard.writeText(insights)}
                             className="copy-button"
                             title="Copy insights"
                         >
                             📋 Copy
-                        </button>
+                        </button> */}
                     </div>
                 ) : (
                     <div className="empty-state">
@@ -329,7 +329,7 @@ const RightPanel = () => {
                             Your browser does not support the audio element.
                         </audio>
                         <div className="podcast-actions">
-                            <button
+                            {/* <button
                                 onClick={() => {
                                     const a = document.createElement('a');
                                     a.href = audioUrl;
@@ -339,7 +339,7 @@ const RightPanel = () => {
                                 className="download-button"
                             >
                                 💾 Download
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 ) : (

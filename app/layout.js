@@ -1,8 +1,7 @@
 import { AppStateProvider } from './components/AppStateContext'
 
 export const metadata = {
-    title: "Adobe PDF Embed App",
-    description: "Using Adobe PDF Embed API in Next.js",
+    title: "Adobe India Hackathon 2025 Finale - Ritzy",
 };
 
 export default function RootLayout({ children }) {
