@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: adobe-hackathon-app
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount local credentials folder to /credentials in container
+      - ./credentials:/credentials:ro
+    environment:
+      # Adobe provided environment variables (these will be set during evaluation)
+      - LLM_PROVIDER=${LLM_PROVIDER:-gemini}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-/credentials/adbe-gcp.json}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - TTS_PROVIDER=${TTS_PROVIDER:-azure}
+      - AZURE_TTS_KEY=${AZURE_TTS_KEY}
+      - AZURE_TTS_ENDPOINT=${AZURE_TTS_ENDPOINT}
+      - AZURE_TTS_DEPLOYMENT=${AZURE_TTS_DEPLOYMENT:-tts}
+      
+      # Optional Adobe Embed API Key
+      - ADOBE_EMBED_API_KEY=${ADOBE_EMBED_API_KEY}
+      
+      # For local development with Google API Key (fallback)
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      
+      # Development environment variables (preserved for local testing)
+      - NEXT_PUBLIC_AZURE_TTS_KEY=${NEXT_PUBLIC_AZURE_TTS_KEY}
+      - NEXT_PUBLIC_AZURE_TTS_ENDPOINT=${NEXT_PUBLIC_AZURE_TTS_ENDPOINT}
+      - NEXT_PUBLIC_GEMINI_API_KEY=${NEXT_PUBLIC_GEMINI_API_KEY}
+      
+      # Next.js production settings
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+      - PORT=8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,13 +1,12 @@
-// AppStateContext.jsx (modified with direct PDF processing and fallback)
+// AppStateContext.jsx (Fixed for Next.js SSR)
 "use client";
 
-import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
-import * as pdfjs from 'pdfjs-dist';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useState } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
-// Set PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.338/pdf.worker.min.js';
+// Dynamic import for PDF.js (client-side only)
+let pdfjs = null;
 
 // Action types
 const ActionTypes = {
@@ -205,29 +204,65 @@ const saveFilesToStorage = (filesMap) => {
     }
 };
 
+// Initialize PDF.js only on client-side
+const initializePdfJs = async () => {
+    if (typeof window === 'undefined') return null;
+
+    try {
+        const pdfjsModule = await import('pdfjs-dist');
+
+        // Simple worker setup for Docker compatibility
+        pdfjsModule.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.16.338/build/pdf.worker.min.js';
+
+        return pdfjsModule;
+    } catch (error) {
+        console.error('Failed to load PDF.js:', error);
+        return null;
+    }
+};
+
 // Provider component
 export const AppStateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(appStateReducer, initialState);
+    const [isClient, setIsClient] = useState(false);
+    const [pdfJsReady, setPdfJsReady] = useState(false);
 
-    // Clear localStorage on mount
+    // Initialize client-side components
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        setIsClient(true);
+
+        const loadPdfJs = async () => {
+            const pdfjsModule = await initializePdfJs();
+            if (pdfjsModule) {
+                pdfjs = pdfjsModule;
+                setPdfJsReady(true);
+            }
+        };
+
+        loadPdfJs();
+    }, []);
+
+    // Clear localStorage on mount (client-side only)
+    useEffect(() => {
+        if (isClient) {
             localStorage.removeItem('pdf-app-files');
             localStorage.removeItem('pdf-app-current');
         }
-    }, []);
+    }, [isClient]);
 
     // Save files to localStorage when files change
     useEffect(() => {
-        saveFilesToStorage(state.files);
-    }, [state.files]);
+        if (isClient) {
+            saveFilesToStorage(state.files);
+        }
+    }, [state.files, isClient]);
 
     // Save current PDF ID to localStorage when it changes
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (isClient) {
             localStorage.setItem('pdf-app-current', state.currentPdfId || '');
         }
-    }, [state.currentPdfId]);
+    }, [state.currentPdfId, isClient]);
 
     // Handle snippets change: find relevant sections using LLM from other PDFs
     useEffect(() => {
@@ -320,7 +355,7 @@ Based on the selected text, select up to 5 most relevant headings from other PDF
 
     // Enhanced parallel heading extraction with direct PDF processing
     const extractHeadingsParallel = useCallback(async (fileDataArray) => {
-        if (!fileDataArray.length) return;
+        if (!fileDataArray.length || !isClient) return;
 
         dispatch({ type: ActionTypes.SET_LOADING, payload: { key: 'headings', value: true } });
         dispatch({ type: ActionTypes.CLEAR_ERROR, payload: 'headings' });
@@ -447,10 +482,15 @@ If no clear headings are found, return an empty array: []
         } finally {
             dispatch({ type: ActionTypes.SET_LOADING, payload: { key: 'headings', value: false } });
         }
-    }, []);
+    }, [isClient]);
 
     // Action creators
     const addFiles = useCallback(async (files) => {
+        if (!isClient || !pdfJsReady || !pdfjs) {
+            console.warn('PDF.js not ready or not on client side');
+            return;
+        }
+
         dispatch({ type: ActionTypes.SET_LOADING, payload: { key: 'files', value: true } });
 
         const fileDataArray = [];
@@ -577,7 +617,7 @@ If no clear headings are found, return an empty array: []
         // Extract headings in parallel after files are processed
         extractHeadingsParallel(fileDataArray);
 
-    }, [state.currentPdfId, extractHeadingsParallel]);
+    }, [state.currentPdfId, extractHeadingsParallel, isClient, pdfJsReady]);
 
     const removeFile = useCallback((fileId) => {
         dispatch({ type: ActionTypes.REMOVE_FILE, payload: fileId });
@@ -689,8 +729,14 @@ If no clear headings are found, return an empty array: []
         };
     }, [state.files, state.audioUrl]);
 
+    // Show loading state while PDF.js is initializing
+    if (!isClient) {
+        return <div>Loading PDF processor...</div>;
+    }
+
     const contextValue = {
         ...state,
+        pdfJsReady,
         actions: {
             addFiles,
             removeFile,
