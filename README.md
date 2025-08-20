@@ -17,6 +17,11 @@ Before you begin, make sure you have the following installed:
 - **Node.js**: [Download Node.js](https://nodejs.org/) (includes npm).
 - **Docker** (if using the Docker setup): [Install Docker](https://www.docker.com/get-started).
 
+#Adobe Embed PDF API Key
+   ```bash
+      fb582e05a1a14a678e61cac8e9c0701f
+   ```
+
 ## Installation
 
 Follow these steps to install the required dependencies for the project.
