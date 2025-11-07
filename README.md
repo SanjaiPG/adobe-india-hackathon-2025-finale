@@ -116,3 +116,23 @@ npm run dev
 ## 🏆 Recognition
 
 This project was developed as part of the Adobe India Hackathon 2025 Finals, where our team Ritzy, achieved the distinction of being ranked among the Top 100 teams nationwide. The project showcases innovative use of Adobe's PDF Services API combined with modern AI technologies to create a unique document-to-podcast conversion solution.
+
+## Team
+
+### Sanjai P G
+* [GitHub](https://github.com/SanjaiPG)
+* [LinkedIn](https://www.linkedin.com/in/sanjai-p-g)
+* [Instagram](https://www.instagram.com/_sanjai_pgs)
+* [Email](mailto:sanjaigukesan8686@gmail.com)
+
+### Dharun S
+* [GitHub](https://github.com/dharuns2)
+* [LinkedIn](https://www.linkedin.com/in/dharun2)
+* [Instagram](https://www.instagram.com/_dharun.4)
+* [Email](mailto:Dharunsaravanan10@gmail.com)
+
+### Abhinav G 
+* [GitHub](https://github.com/Abhinav-Gopalakrishnan)
+* [LinkedIn](https://www.linkedin.com/in/abhinav-g-486343295/)
+* [Instagram](https://www.instagram.com/_abhinav___g)
+* [Email](mailto:abhi67devil@gmail.com)
